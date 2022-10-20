@@ -4,6 +4,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -14,7 +15,7 @@ const firebaseConfig = {
   projectId: "e-commerce-reactdb-1c9fc",
   storageBucket: "e-commerce-reactdb-1c9fc.appspot.com",
   messagingSenderId: "141634092541",
-  appId: "1:141634092541:web:52f0c7945d2ed571d76d94",
+  appId: "1:141634092541:web:52f0c7945d2ed571d76d94"
 };
 
 // Initialize Firebase
@@ -22,7 +23,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const googleprovider = new GoogleAuthProvider();
 
 googleprovider.setCustomParameters({
-  prompt: "select_account",
+  prompt: "select_account"
 });
 
 export const auth = getAuth();
@@ -48,7 +49,7 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
-        ...addtionalInformation,
+        ...addtionalInformation
       });
     } catch (error) {
       console.log(error);
@@ -60,4 +61,9 @@ export const createUserDocumentFromAuth = async (
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
 };

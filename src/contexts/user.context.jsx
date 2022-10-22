@@ -11,7 +11,7 @@ export const UserContext = createContext({
 
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const vaule = { currentUser, setCurrentUser };
+  const value = { currentUser, setCurrentUser };
 
   useEffect(() => {
     onAuthStateChangedListener((user) => {
@@ -22,5 +22,5 @@ export const UserProvider = ({ children }) => {
     });
   }, []);
 
-  return <UserContext.Provider value={vaule}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

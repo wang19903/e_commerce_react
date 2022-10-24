@@ -6,7 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -16,7 +16,7 @@ import {
   collection,
   writeBatch,
   query,
-  getDocs
+  getDocs,
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -26,7 +26,7 @@ const firebaseConfig = {
   projectId: "e-commerce-reactdb-1c9fc",
   storageBucket: "e-commerce-reactdb-1c9fc.appspot.com",
   messagingSenderId: "141634092541",
-  appId: "1:141634092541:web:52f0c7945d2ed571d76d94"
+  appId: "1:141634092541:web:52f0c7945d2ed571d76d94",
 };
 
 // Initialize Firebase
@@ -34,7 +34,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const googleprovider = new GoogleAuthProvider();
 
 googleprovider.setCustomParameters({
-  prompt: "select_account"
+  prompt: "select_account",
 });
 
 export const auth = getAuth();
@@ -42,6 +42,7 @@ export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleprovider);
 
 export const db = getFirestore();
+
 export const addCollectionAndDocuments = async (
   collectionKey,
   objectsToAdd
@@ -55,6 +56,7 @@ export const addCollectionAndDocuments = async (
   await batch.commit();
   console.log("set in firebase");
 };
+
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, "categories");
   const q = query(collectionRef);
@@ -69,7 +71,7 @@ export const getCategoriesAndDocuments = async () => {
     // console.log("acc : ", acc);
     return acc;
   }, {});
-  console.log("categoryMap : ", categoryMap);
+  //   console.log("categoryMap : ", categoryMap);
   return categoryMap;
 };
 export const createUserDocumentFromAuth = async (
@@ -90,7 +92,7 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
-        ...addtionalInformation
+        ...addtionalInformation,
       });
     } catch (error) {
       console.log(error);

@@ -4,7 +4,7 @@ import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils";
 // import SHOP_DATA from "../shop-data.js"; //set in firebase
 
 export const CategoriesContext = createContext({
-  categoriesMap: {}
+  categoriesMap: {},
 });
 
 export const CategoriesProvider = ({ children }) => {
@@ -18,7 +18,7 @@ export const CategoriesProvider = ({ children }) => {
   useEffect(() => {
     const getCategoriesMap = async () => {
       const categoryMap = await getCategoriesAndDocuments();
-      console.log(categoryMap);
+      //   console.log(categoryMap);
       setCategoriesMap(categoryMap);
     };
     return getCategoriesMap;

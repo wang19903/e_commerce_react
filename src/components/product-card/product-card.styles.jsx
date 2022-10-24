@@ -7,12 +7,14 @@ export const ProductCardContainer = styled.div`
   height: 350px;
   align-items: center;
   position: relative;
+
   img {
     width: 100%;
     height: 95%;
     object-fit: cover;
     margin-bottom: 5px;
   }
+
   button {
     width: 80%;
     opacity: 0.7;
@@ -22,16 +24,15 @@ export const ProductCardContainer = styled.div`
     right: 0; //
     top: 255px;
     display: none;
+  }
 
-    &:hover {
-      img {
-        opacity: 0.8;
-      }
-
-      button {
-        opacity: 0.85;
-        display: flex;
-      }
+  &:hover {
+    img {
+      opacity: 0.8;
+    }
+    button {
+      opacity: 0.85;
+      display: flex;
     }
   }
 `;

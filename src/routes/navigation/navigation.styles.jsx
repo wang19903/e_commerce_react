@@ -9,7 +9,7 @@ export const NavigationContainer = styled.div`
   margin-bottom: 25px;
 `;
 
-export const Logocontainer = styled(Link)`
+export const LogoContainer = styled(Link)`
   height: 100%;
   width: 70px;
   padding: 25px;

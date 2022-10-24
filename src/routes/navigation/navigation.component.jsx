@@ -5,10 +5,10 @@ import { UserContext } from "../../contexts/user.context";
 import { CartContext } from "../../contexts/cart.context";
 import {
   NavigationContainer,
-  Logocontainer,
+  LogoContainer,
   NavLinks,
   NavLink,
-} from "./navigation.styles.jsx";
+} from "./navigation.styles";
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
@@ -20,9 +20,9 @@ const Navigation = () => {
   return (
     <Fragment>
       <NavigationContainer>
-        <Logocontainer to="/">
+        <LogoContainer to="/">
           <ReactComponent className="logo" />
-        </Logocontainer>
+        </LogoContainer>
         <NavLinks>
           <NavLink to="/shop">SHOP</NavLink>
           {currentUser ? (

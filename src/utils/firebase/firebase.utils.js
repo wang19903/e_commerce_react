@@ -19,7 +19,6 @@ import {
   getDocs,
 } from "firebase/firestore";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDDU4V-_QV3M8GyhC9SVieRTDM4dbiT0Yk",
   authDomain: "crwn-clothing-db-98d4d.firebaseapp.com",
@@ -29,32 +28,35 @@ const firebaseConfig = {
   appId: "1:626766232035:web:506621582dab103a4d08d6",
 };
 
-// Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
-const googleprovider = new GoogleAuthProvider();
 
-googleprovider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider();
+
+googleProvider.setCustomParameters({
   prompt: "select_account",
 });
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () =>
-  signInWithPopup(auth, googleprovider);
+  signInWithPopup(auth, googleProvider);
 
 export const db = getFirestore();
 
 export const addCollectionAndDocuments = async (
   collectionKey,
-  objectsToAdd
+  objectsToAdd,
+  field
 ) => {
   const collectionRef = collection(db, collectionKey);
   const batch = writeBatch(db);
+
   objectsToAdd.forEach((object) => {
-    const DocRef = doc(collectionRef, object.title.toLowerCase());
-    batch.set(DocRef, object);
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
   });
+
   await batch.commit();
-  console.log("set in firebase");
+  console.log("done");
 };
 
 export const getCategoriesAndDocuments = async () => {
@@ -73,11 +75,12 @@ export const getCategoriesAndDocuments = async () => {
 
 export const createUserDocumentFromAuth = async (
   userAuth,
-  addtionalInformation = {}
+  additionalInformation = {}
 ) => {
   if (!userAuth) return;
 
   const userDocRef = doc(db, "users", userAuth.uid);
+
   const userSnapshot = await getDoc(userDocRef);
 
   if (!userSnapshot.exists()) {
@@ -89,22 +92,25 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
-        ...addtionalInformation,
+        ...additionalInformation,
       });
     } catch (error) {
-      console.log(error);
+      console.log("error creating the user", error.message);
     }
   }
+
   return userDocRef;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
+
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
+
   return await signInWithEmailAndPassword(auth, email, password);
 };
 

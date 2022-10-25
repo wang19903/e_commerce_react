@@ -40,7 +40,9 @@ export const UserProvider = ({ children }) => {
       if (user) {
         createUserDocumentFromAuth(user);
       }
+      console.log("user", user);
       setCurrentUser(user);
+      console.log("setCurrentUser", { currentUser });
     });
   }, []);
 

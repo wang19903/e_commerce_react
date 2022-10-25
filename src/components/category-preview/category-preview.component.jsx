@@ -7,10 +7,11 @@ import ProductCard from "../product-card/product-card.component";
 import React from "react";
 
 const CategoryPreview = ({ title, products }) => {
+  console.log(title, typeof title);
   return (
     <CategoryPreviewContainer>
       <h2>
-        <Title to={title}>{title.toUpperCase()}</Title>
+        <Title to={title}>{title}</Title>
       </h2>
       <Preview>
         {products

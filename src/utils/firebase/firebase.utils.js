@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
-  signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -30,61 +29,58 @@ const firebaseConfig = {
   appId: "1:141634092541:web:52f0c7945d2ed571d76d94",
 };
 
+// Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
+const googleprovider = new GoogleAuthProvider();
 
-const googleProvider = new GoogleAuthProvider();
-
-googleProvider.setCustomParameters({
+googleprovider.setCustomParameters({
   prompt: "select_account",
 });
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () =>
-  signInWithPopup(auth, googleProvider);
-export const signInWithGoogleRedirect = () =>
-  signInWithRedirect(auth, googleProvider);
+  signInWithPopup(auth, googleprovider);
 
 export const db = getFirestore();
 
 export const addCollectionAndDocuments = async (
   collectionKey,
-  objectsToAdd,
-  field
+  objectsToAdd
 ) => {
   const collectionRef = collection(db, collectionKey);
   const batch = writeBatch(db);
-
   objectsToAdd.forEach((object) => {
-    const docRef = doc(collectionRef, object.title.toLowerCase());
-    batch.set(docRef, object);
+    const DocRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(DocRef, object);
   });
-
   await batch.commit();
-  console.log("done");
+  console.log("set in firebase");
 };
 
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, "categories");
   const q = query(collectionRef);
-
+  console.log("q : ", q);
   const querySnapshot = await getDocs(q);
+  console.log("querySnapshot : ", querySnapshot);
   const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
     const { title, items } = docSnapshot.data();
+    console.log("{ title, items } : ", { title, items });
     acc[title.toLowerCase()] = items;
+    console.log("items : ", acc[title.toLowerCase()]);
+    console.log("acc : ", acc);
     return acc;
   }, {});
-
+  console.log("categoryMap : ", categoryMap);
   return categoryMap;
 };
-
 export const createUserDocumentFromAuth = async (
   userAuth,
-  additionalInformation = {}
+  addtionalInformation = {}
 ) => {
   if (!userAuth) return;
 
   const userDocRef = doc(db, "users", userAuth.uid);
-
   const userSnapshot = await getDoc(userDocRef);
 
   if (!userSnapshot.exists()) {
@@ -96,25 +92,22 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
-        ...additionalInformation,
+        ...addtionalInformation,
       });
     } catch (error) {
-      console.log("error creating the user", error.message);
+      console.log(error);
     }
   }
-
   return userDocRef;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
-
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
-
   return await signInWithEmailAndPassword(auth, email, password);
 };
 

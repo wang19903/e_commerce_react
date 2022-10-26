@@ -31,20 +31,23 @@ const userReducer = (state, action) => {
 
 export const UserProvider = ({ children }) => {
   const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_STATE);
+  const createAction = (type, payload) => ({ type, payload });
 
   const setCurrentUser = (user) =>
-    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, currentUser: user });
+    dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
 
   useEffect(() => {
-    onAuthStateChangedListener((user) => {
+    const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
         createUserDocumentFromAuth(user);
       }
-      console.log("user", user);
       setCurrentUser(user);
-      console.log("setCurrentUser", { currentUser });
     });
+
+    return unsubscribe;
   }, []);
+
+  console.log(currentUser);
 
   const value = {
     currentUser,

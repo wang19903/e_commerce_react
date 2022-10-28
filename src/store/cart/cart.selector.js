@@ -1,7 +1,3 @@
-// export const selectIsCartOpen = (state) => {
-//   console.log("select", state);
-//   return state.cart.isCartOpen;
-// };
 import { createSelector } from "reselect";
 
 const selectCartReducer = (state) => state.cart; //find which reducer

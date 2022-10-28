@@ -60,20 +60,18 @@ export const addCollectionAndDocuments = async (
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, "categories");
   const q = query(collectionRef);
-  //   console.log("q : ", q);
   const querySnapshot = await getDocs(q);
-  //   console.log("querySnapshot : ", querySnapshot);
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    // console.log("{ title, items } : ", { title, items });
-    acc[title.toLowerCase()] = items;
-    // console.log("items : ", acc[title.toLowerCase()]);
-    // console.log("acc : ", acc);
-    return acc;
-  }, {});
-  //   console.log("categoryMap : ", categoryMap);
-  return categoryMap;
+  //get資料後map，不做categoryMap直接fetch
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+  //  const querySnapshot = await getDocs(q);
+  //   const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+  //     const { title, items } = docSnapshot.data();//fetch
+  //     acc[title.toLowerCase()] = items;
+  //     return acc;
+  //   }, {});
+  //return categoryMap;
 };
+
 export const createUserDocumentFromAuth = async (
   userAuth,
   addtionalInformation = {}
@@ -113,5 +111,6 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangedListener = (callback) =>
+export const onAuthStateChangedListener = (callback) => {
   onAuthStateChanged(auth, callback);
+};

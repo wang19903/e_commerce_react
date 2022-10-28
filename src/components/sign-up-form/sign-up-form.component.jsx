@@ -1,17 +1,17 @@
 import { useState } from "react";
 import FormInput from "../form-input/form-input.component";
+import Button from "../button/button.component";
 import {
   createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth
+  createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
-import "./sign-up-form.styles.scss";
-import Button from "../button/button.component";
+import { SignUpContainer } from "./sign-up-form.styles";
 
 const defaultFormFields = {
   displayName: "",
   email: "",
   password: "",
-  confirmPassword: ""
+  confirmPassword: "",
 };
 
 const SignUpForm = () => {
@@ -22,7 +22,7 @@ const SignUpForm = () => {
     setFormField(defaultFormFields);
   };
 
-  const handleSumit = async (event) => {
+  const handleSummit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) alert("password do not match");
     try {
@@ -48,10 +48,10 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>Don't have an account?</h2>
       <span>Sign up your email and password</span>
-      <form onSubmit={handleSumit}>
+      <form onSubmit={handleSummit}>
         <FormInput
           label="Display Name"
           type="text"
@@ -90,7 +90,7 @@ const SignUpForm = () => {
 
         <Button type="submit">Sign up</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

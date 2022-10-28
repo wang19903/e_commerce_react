@@ -19,15 +19,10 @@ const SignInForm = () => {
     await signInWithGooglePopup();
   };
 
-  const handleSumit = async (event) => {
+  const handleSummit = async (event) => {
     event.preventDefault();
-
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-
+      await signInAuthUserWithEmailAndPassword(email, password);
       resetFormField();
     } catch (error) {
       alert("incorrect Email or Password");
@@ -48,7 +43,7 @@ const SignInForm = () => {
     <SignInContainer>
       <H2>I already have an account</H2>
       <span>Sign in with your email and password</span>
-      <form onSubmit={handleSumit}>
+      <form onSubmit={handleSummit}>
         <FormInput
           label="Email"
           type="email"

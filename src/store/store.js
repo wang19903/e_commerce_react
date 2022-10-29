@@ -8,11 +8,14 @@ import thunk from "redux-thunk";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["user"],
+  blacklist: ["user"]
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const middleware = [process.env.NODE_ENV === "development" && thunk].filter(
+const middleware = [
+  process.env.NODE_ENV === "development" && logger,
+  thunk
+].filter(
   Boolean //if true get middleware ex: logger,thunk...
 );
 
@@ -23,7 +26,6 @@ const composeEnhancer =
   compose;
 
 const composedEnhancers = composeEnhancer(applyMiddleware(...middleware));
-// const composedEnhancers = composeEnhancer(); //close logger
 
 export const store = createStore(
   persistedReducer,

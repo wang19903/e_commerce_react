@@ -8,7 +8,7 @@ import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout.component";
 import {
   onAuthStateChangedListener,
-  createUserDocumentFromAuth,
+  createUserDocumentFromAuth
 } from "../src/utils/firebase/firebase.utils";
 import { setCurrentUser } from "./store/user/user.action";
 

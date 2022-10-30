@@ -6,7 +6,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged,
+  onAuthStateChanged
 } from "firebase/auth";
 import {
   getFirestore,
@@ -16,7 +16,7 @@ import {
   collection,
   writeBatch,
   query,
-  getDocs,
+  getDocs
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -26,7 +26,7 @@ const firebaseConfig = {
   projectId: "e-commerce-reactdb-1c9fc",
   storageBucket: "e-commerce-reactdb-1c9fc.appspot.com",
   messagingSenderId: "141634092541",
-  appId: "1:141634092541:web:52f0c7945d2ed571d76d94",
+  appId: "1:141634092541:web:52f0c7945d2ed571d76d94"
 };
 
 // Initialize Firebase
@@ -34,7 +34,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const googleprovider = new GoogleAuthProvider();
 
 googleprovider.setCustomParameters({
-  prompt: "select_account",
+  prompt: "select_account"
 });
 
 export const auth = getAuth();
@@ -60,9 +60,12 @@ export const addCollectionAndDocuments = async (
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, "categories");
   const q = query(collectionRef);
+
   const querySnapshot = await getDocs(q);
-  //get資料後map，不做categoryMap直接fetch
   return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
+
+  // //get資料後map，不做categoryMap直接fetch
+  // return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
   //  const querySnapshot = await getDocs(q);
   //   const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
   //     const { title, items } = docSnapshot.data();//fetch
@@ -74,7 +77,7 @@ export const getCategoriesAndDocuments = async () => {
 
 export const createUserDocumentFromAuth = async (
   userAuth,
-  addtionalInformation = {}
+  additionalInformation = {}
 ) => {
   if (!userAuth) return;
 
@@ -90,13 +93,13 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
-        ...addtionalInformation,
+        ...additionalInformation
       });
     } catch (error) {
       console.log(error);
     }
   }
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -113,4 +116,17 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) => {
   onAuthStateChanged(auth, callback);
+};
+//pratice
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
 };

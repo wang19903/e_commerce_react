@@ -1,33 +1,41 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import FormInput from "../form-input/form-input.component";
-import {
-  signInWithGooglePopup,
-  signInAuthUserWithEmailAndPassword,
-} from "../../utils/firebase/firebase.utils";
+// import {
+//   signInWithGooglePopup,
+//   signInAuthUserWithEmailAndPassword
+// } from "../../utils/firebase/firebase.utils";
 import { SignInContainer, H2, ButtonsContainer } from "./sign-in-form.styles";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
+import {
+  googleSignInStart,
+  emailSignInStart
+} from "../../store/user/user.action";
 
 const defaultFormFields = {
   email: "",
-  password: "",
+  password: ""
 };
 
 const SignInForm = () => {
   const [formField, setFormField] = useState(defaultFormFields);
+  const dispatch = useDispatch();
   const { email, password } = formField;
-  const SignInWithGoogle = async () => {
-    await signInWithGooglePopup();
+
+  const SignInWithGoogle = () => {
+    dispatch(googleSignInStart());
+    // await signInWithGooglePopup();
   };
 
-  const handleSummit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      await signInAuthUserWithEmailAndPassword(email, password);
-      resetFormField();
-    } catch (error) {
-      alert("incorrect Email or Password");
-      // console.log(error);
-    }
+
+    // try {
+    dispatch(emailSignInStart(email, password));
+    resetFormField();
+    // } catch (error) {
+    //   console.log("user sign in failed", error);
+    // }
   };
 
   const resetFormField = () => {
@@ -43,7 +51,7 @@ const SignInForm = () => {
     <SignInContainer>
       <H2>I already have an account</H2>
       <span>Sign in with your email and password</span>
-      <form onSubmit={handleSummit}>
+      <form onSubmit={handleSubmit}>
         <FormInput
           label="Email"
           type="email"

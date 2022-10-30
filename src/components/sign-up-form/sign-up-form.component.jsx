@@ -1,20 +1,23 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase/firebase.utils";
+// import {
+//   createAuthUserWithEmailAndPassword,
+//   createUserDocumentFromAuth
+// } from "../../utils/firebase/firebase.utils";
 import { SignUpContainer } from "./sign-up-form.styles";
+import { signUpStart, onSignUpSuccess } from "../../store/user/user.action";
 
 const defaultFormFields = {
   displayName: "",
   email: "",
   password: "",
-  confirmPassword: "",
+  confirmPassword: ""
 };
 
 const SignUpForm = () => {
+  const dispatch = useDispatch();
   const [formField, setFormField] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formField;
 
@@ -22,24 +25,25 @@ const SignUpForm = () => {
     setFormField(defaultFormFields);
   };
 
-  const handleSummit = async (event) => {
+  const handleSummit = (event) => {
     event.preventDefault();
     if (password !== confirmPassword) alert("password do not match");
-    try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+    // try {
+    // const { user } = await createAuthUserWithEmailAndPassword(
+    //   email,
+    //   password
+    // );
 
-      await createUserDocumentFromAuth(user, { displayName });
-      resetFormField();
-    } catch (error) {
-      if (error.code === "auth/email-already-in-use") {
-        alert("email-already-in-use");
-      } else {
-        console.log(error);
-      }
-    }
+    // await createUserDocumentFromAuth(user, { displayName });
+    dispatch(signUpStart(email, password, displayName));
+    resetFormField();
+    // } catch (error) {
+    //   if (error.code === "auth/email-already-in-use") {
+    //     alert("email-already-in-use");
+    //   } else {
+    //     console.log(error);
+    //   }
+    // }
   };
 
   const handleChange = (event) => {

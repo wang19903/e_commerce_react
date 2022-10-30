@@ -63,9 +63,7 @@ export const getCategoriesAndDocuments = async () => {
 
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
-  // const collectionRef = collection(db, "categories");
-  // const q = query(collectionRef);
-  // const querySnapshot = await getDocs(q);
+
   // //get資料後map，不做categoryMap直接fetch
   // return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
   //  const querySnapshot = await getDocs(q);
@@ -79,7 +77,7 @@ export const getCategoriesAndDocuments = async () => {
 
 export const createUserDocumentFromAuth = async (
   userAuth,
-  addtionalInformation = {}
+  additionalInformation = {}
 ) => {
   if (!userAuth) return;
 
@@ -95,13 +93,13 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
-        ...addtionalInformation
+        ...additionalInformation
       });
     } catch (error) {
       console.log(error);
     }
   }
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -118,4 +116,17 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) => {
   onAuthStateChanged(auth, callback);
+};
+//pratice
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
 };

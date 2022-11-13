@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Home from "./routes/home/home.component";
 import Navigation from "./routes/navigation/navigation.component";

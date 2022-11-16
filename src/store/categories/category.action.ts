@@ -8,10 +8,12 @@ import {
 
 export type FetchCategoriesStart =
   Action<CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_START>;
+
 export type FetchCategoriesSuccess = ActionWithPayload<
   CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS,
   CategoriesArray[]
 >;
+
 export type FetchCategoriesfailed = ActionWithPayload<
   CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_FAILED,
   Error
@@ -21,8 +23,6 @@ export const fetchCategoriesStart = withMatcher(
   (): FetchCategoriesStart =>
     createAction(CATEGORY_ACTION_TYPES.FETCH_CATEGORIES_START)
 );
-
-fetchCategoriesStart.match;
 
 export const fetchCategoriesSuccess = withMatcher(
   (categoriesArray: CategoriesArray[]): FetchCategoriesSuccess =>

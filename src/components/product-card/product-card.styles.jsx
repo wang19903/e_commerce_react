@@ -23,7 +23,9 @@ export const ProductCardContainer = styled.div`
     left: 0; //
     right: 0; //
     top: 255px;
-    display: none;
+    padding: 0;
+    display: flex;
+    min-width: 0;
   }
 
   &:hover {

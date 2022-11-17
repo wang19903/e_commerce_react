@@ -36,7 +36,7 @@ export const Body = styled.div`
 
 export const DirectoryItemContainer = styled.div`
   min-width: 30%;
-  height: 240px;
+  min-height: 240px;
   flex: 1 1 auto;
   display: flex;
   align-items: center;
@@ -68,5 +68,9 @@ export const DirectoryItemContainer = styled.div`
 
   &:last-child {
     margin-left: 7.5px;
+  }
+
+  @media (max-width: 412px) {
+    min-width: 165px;
   }
 `;

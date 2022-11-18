@@ -5,7 +5,12 @@ import FormInput from "../form-input/form-input.component";
 //   signInWithGooglePopup,
 //   signInAuthUserWithEmailAndPassword
 // } from "../../utils/firebase/firebase.utils";
-import { SignInContainer, H2, ButtonsContainer } from "./sign-in-form.styles";
+import {
+  SignInContainer,
+  H2,
+  ButtonsContainer,
+  GoogleButton
+} from "./sign-in-form.styles";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import {
   googleSignInStart,
@@ -71,13 +76,13 @@ const SignInForm = () => {
         />
         <ButtonsContainer>
           <Button type="submit">Sign In</Button>
-          <Button
+          <GoogleButton
             buttonType={BUTTON_TYPE_CLASSES.google}
             type="button"
             onClick={SignInWithGoogle}
           >
             Google Sign In
-          </Button>
+          </GoogleButton>
         </ButtonsContainer>
       </form>
     </SignInContainer>
